@@ -182,3 +182,59 @@ def game_dict():
             ]
         }
     }
+def num_points_per_game(player_name):
+    game_data = game_dict()
+    for team in game_data.values():
+        for player in team["players"]:
+            if player["name"] == player_name:
+                return player["points_per_game"]
+    return None  # Returns None if player not found
+print(num_points_per_game("Darius Garland"))  # Should return 21.7
+print(num_points_per_game("Bradley Beal"))    # Should return 23.2
+
+def find_player(name):
+    for team in game_dict().values():
+        for player in team["players"]:
+            if player["name"] == name:
+                return player
+    return None
+def player_age(player_name):
+    player = find_player(player_name)
+    return player["age"] if player else None
+def team_colors(team_name):
+    for team in game_dict().values():
+        if team["team_name"] == team_name:
+            return team["colors"]
+    return None
+def team_names():
+    return [team["team_name"] for team in game_dict().values()]
+def player_numbers(team_name):
+    for team in game_dict().values():
+        if team["team_name"] == team_name:
+            return [player["number"] for player in team["players"]]
+    return []
+def player_stats(player_name):
+    return find_player(player_name)
+def average_rebounds_by_shoe_brand():
+    rebounds_by_brand = {} 
+    for team in game_dict().values():  
+        for player in team["players"]:  
+            brand = player["shoe_brand"]
+            rebounds = player["rebounds_per_game"]
+
+            if brand not in rebounds_by_brand:
+                rebounds_by_brand[brand] = []
+            rebounds_by_brand[brand].append(rebounds)
+
+
+    for brand, rebounds in rebounds_by_brand.items():
+    
+        average_rebounds = sum(rebounds) / len(rebounds)
+        print(f'"{brand}": {average_rebounds:.2f}')
+   
+print(player_age("Kristaps Porzingis"))  # 27
+print(team_colors("Cleveland Cavaliers"))  # ["Wine", "Gold"]
+print(team_names())  # ["Cleveland Cavaliers", "Washington Wizards"]
+print(player_numbers("Washington Wizards"))  # [3, 33, 1, 42, 6, 8]
+print(player_stats("Evan Mobley"))
+average_rebounds_by_shoe_brand()
